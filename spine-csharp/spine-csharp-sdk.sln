@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spine-csharp-sdk", "spine-csharp-sdk.csproj", "{A37C1B5E-E340-49B8-97D5-C6E5C14494D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spine-csharp-sdk-v3", "spine-csharp-sdk-v3.csproj", "{A37C1B5E-E340-49B8-97D5-C6E5C14494D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
