@@ -127,12 +127,15 @@ namespace Spine {
 			return input.GetVersionString();
 		}
 
+		private SkeletonData CurrentSkeletonData;
+
 		public SkeletonData ReadSkeletonData (Stream file) {
 			if (file == null) throw new ArgumentNullException("file");
 			float scale = this.scale;
 
 			SkeletonData skeletonData = new SkeletonData();
 			SkeletonInput input = new SkeletonInput(file);
+			CurrentSkeletonData = skeletonData;
 
 			long hash = input.ReadLong();
 			skeletonData.hash = hash == 0 ? null : hash.ToString();
@@ -1361,7 +1364,7 @@ namespace Spine {
 			}
 		}
 
-		private class LinkedMesh {
+		public class LinkedMesh {
 			internal string parent;
 			internal int skinIndex, slotIndex;
 			internal MeshAttachment mesh;

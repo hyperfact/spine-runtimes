@@ -29,7 +29,30 @@ namespace Spine {
             public readonly byte[] FrameExtraData;
             public readonly List<CurveFrameBezierData> CurveFrameBezierDatas= new List<CurveFrameBezierData>();
         }
-        public readonly Dictionary<Timeline, ExposedList<CurveFrameData>> CurveFrameDatas = new Dictionary<Timeline, ExposedList<CurveFrameData>>();
+        public readonly Dictionary<Timeline, Dictionary<int, CurveFrameData>> CurveFrameDatas = new Dictionary<Timeline, Dictionary<int, CurveFrameData>>();
+
+        private CurveFrameData GetCurveFrameData(Timeline tl, int frame) {
+            if (!CurveFrameDatas.TryGetValue(tl, out var m))
+                CurveFrameDatas[tl] = m = new Dictionary<int, CurveFrameData>();
+            
+            if (!m.TryGetValue(frame, out var fd))
+                m[frame] = fd = new CurveFrameData();
+            return fd;
+        }
+
+        internal void RecordCurveStepped(Timeline tl, int frame) {
+            GetCurveFrameData(tl, frame).CurveType = SkeletonBinary.CURVE_STEPPED;
+        }
+        internal void RecordCurveBezier(Timeline tl, int frame, float cx1, float cy1, float cx2, float cy2) {
+            var fd = GetCurveFrameData(tl, frame);
+            fd.CurveType = SkeletonBinary.CURVE_BEZIER;
+            fd.CurveFrameBezierDatas.Add(new CurveFrameBezierData{
+                cx1 = cx1,
+                cy1 = cy1,
+                cx2 = cx2,
+                cy2 = cy2,
+            });
+        }
 
         internal class StreamBytesScope : IDisposable
         {

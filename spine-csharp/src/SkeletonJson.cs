@@ -89,12 +89,13 @@ namespace Spine {
 			}
 		}
 #endif
-
+		private static SkeletonData CurrentSkeletonData;
 		public SkeletonData ReadSkeletonData (TextReader reader) {
 			if (reader == null) throw new ArgumentNullException("reader", "reader cannot be null.");
 
 			float scale = this.scale;
 			SkeletonData skeletonData = new SkeletonData();
+			CurrentSkeletonData = skeletonData;
 
 			Dictionary<string, object> root = Json.Deserialize(reader) as Dictionary<string, Object>;
 			if (root == null) throw new Exception("Invalid JSON.");
@@ -1275,7 +1276,10 @@ namespace Spine {
 
 			string curveString = curve as string;
 			if (curveString != null) {
-				if (curveString == "stepped") timeline.SetStepped(frame);
+				if (curveString == "stepped") {
+					timeline.SetStepped(frame);
+					CurrentSkeletonData.RecordCurveStepped(timeline, frame);
+				}
 				return bezier;
 			}
 			List<object> curveValues = (List<object>)curve;
@@ -1291,6 +1295,8 @@ namespace Spine {
 		static void SetBezier (CurveTimeline timeline, int frame, int value, int bezier, float time1, float value1, float cx1, float cy1,
 			float cx2, float cy2, float time2, float value2) {
 			timeline.SetBezier(bezier, frame, value, time1, value1, cx1, cy1, cx2, cy2, time2, value2);
+
+			CurrentSkeletonData.RecordCurveBezier(timeline, frame, cx1, cy1, cx2, cy2);
 		}
 
 		static float[] GetFloatArray (Dictionary<string, Object> map, string name, float scale) {
@@ -1345,7 +1351,7 @@ namespace Spine {
 			return Convert.ToInt32(hexString.Substring(colorIndex * 2, 2), 16) / (float)255;
 		}
 
-		private class LinkedMesh {
+		public class LinkedMesh {
 			internal string parent, skin;
 			internal int slotIndex;
 			internal MeshAttachment mesh;
