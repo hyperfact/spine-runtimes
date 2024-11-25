@@ -27,6 +27,7 @@ namespace Spine {
             public float FrameTime;
             public readonly List<float> ExtraValues = new List<float>();
             public readonly byte[] FrameExtraData;
+            public readonly Dictionary<string, object> FrameExtraObjects = new();
             public readonly List<CurveFrameBezierData> CurveFrameBezierDatas= new List<CurveFrameBezierData>();
         }
         public readonly Dictionary<Timeline, Dictionary<int, CurveFrameData>> CurveFrameDatas = new Dictionary<Timeline, Dictionary<int, CurveFrameData>>();
@@ -38,6 +39,10 @@ namespace Spine {
             if (!m.TryGetValue(frame, out var fd))
                 m[frame] = fd = new CurveFrameData();
             return fd;
+        }
+        
+        internal void RecordFrameExtraObject(Timeline tl, int frame, string name, object value) {
+            GetCurveFrameData(tl, frame).FrameExtraObjects[name] = value;
         }
 
         internal void RecordCurveStepped(Timeline tl, int frame) {

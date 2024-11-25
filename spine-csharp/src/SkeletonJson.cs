@@ -1163,6 +1163,7 @@ namespace Spine {
 				foreach (Dictionary<string, Object> keyMap in values) {
 					int[] drawOrder = null;
 					if (keyMap.ContainsKey("offsets")) {
+						CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, "offsets", keyMap["offsets"]);
 						drawOrder = new int[slotCount];
 						for (int i = slotCount - 1; i >= 0; i--)
 							drawOrder[i] = -1;
