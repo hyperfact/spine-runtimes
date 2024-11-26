@@ -31,6 +31,15 @@ namespace Spine {
             public readonly List<CurveFrameBezierData> CurveFrameBezierDatas= new List<CurveFrameBezierData>();
         }
         public readonly Dictionary<Timeline, Dictionary<int, CurveFrameData>> CurveFrameDatas = new Dictionary<Timeline, Dictionary<int, CurveFrameData>>();
+        public readonly Dictionary<object, Dictionary<string, object>> ExtraObjectsMap = new();
+
+        internal void RecordExtraObject<T>(object obj, Dictionary<string, T> map, string key, T defaultValue=default(T)) {
+            if (map.TryGetValue(key, out var v) && !v.Equals(defaultValue)) {
+                if (!ExtraObjectsMap.TryGetValue(obj, out var d))
+                    ExtraObjectsMap[obj] = d = new();
+                d[key] = v;
+            }
+        }
 
         private CurveFrameData GetCurveFrameData(Timeline tl, int frame) {
             if (!CurveFrameDatas.TryGetValue(tl, out var m))

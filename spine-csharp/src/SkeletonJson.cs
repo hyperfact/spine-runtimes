@@ -139,6 +139,8 @@ namespace Spine {
 					data.skinRequired = GetBoolean(boneMap, "skin", false);
 
 					skeletonData.bones.Add(data);
+
+					CurrentSkeletonData.RecordExtraObject(data, boneMap, "color");
 				}
 			}
 
