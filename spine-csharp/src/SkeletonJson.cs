@@ -85,11 +85,14 @@ namespace Spine {
 		}
 		#endif
 
+		[ThreadStatic]
+		private static SkeletonData CurrentSkeletonData;
 		public SkeletonData ReadSkeletonData (TextReader reader) {
 			if (reader == null) throw new ArgumentNullException("reader", "reader cannot be null.");
 
 			float scale = this.Scale;
 			var skeletonData = new SkeletonData();
+			CurrentSkeletonData = skeletonData;
 
 			var root = Json.Deserialize(reader) as Dictionary<string, Object>;
 			if (root == null) throw new Exception("Invalid JSON.");
@@ -134,6 +137,8 @@ namespace Spine {
 					data.skinRequired = GetBoolean(boneMap, "skin", false);
 
 					skeletonData.bones.Add(data);
+
+					CurrentSkeletonData.RecordExtraObject(data, boneMap, "color");
 				}
 			}
 
@@ -748,6 +753,9 @@ namespace Spine {
 								if (!valueMap.ContainsKey("vertices")) {
 									deform = weighted ? new float[deformLength] : vertices;
 								} else {
+									CurrentSkeletonData.RecordFrameExtraObject(timeline, frameIndex, valueMap, "offset");
+									CurrentSkeletonData.RecordFrameExtraObject(timeline, frameIndex, valueMap, "vertices");
+
 									deform = new float[deformLength];
 									int start = GetInt(valueMap, "offset", 0);
 									float[] verticesValue = GetFloatArray(valueMap, "vertices", 1);
@@ -783,6 +791,7 @@ namespace Spine {
 				foreach (Dictionary<string, Object> drawOrderMap in values) {
 					int[] drawOrder = null;
 					if (drawOrderMap.ContainsKey("offsets")) {
+						CurrentSkeletonData.RecordFrameExtraObject(timeline, frameIndex, drawOrderMap, "offsets");
 						drawOrder = new int[slotCount];
 						for (int i = slotCount - 1; i >= 0; i--)
 							drawOrder[i] = -1;
