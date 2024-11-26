@@ -141,6 +141,7 @@ namespace Spine {
 					skeletonData.bones.Add(data);
 
 					CurrentSkeletonData.RecordExtraObject(data, boneMap, "color");
+					CurrentSkeletonData.RecordExtraObject(data, boneMap, "icon");
 				}
 			}
 
