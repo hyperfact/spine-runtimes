@@ -1103,6 +1103,9 @@ namespace Spine {
 										if (!keyMap.ContainsKey("vertices")) {
 											deform = weighted ? new float[deformLength] : vertices;
 										} else {
+											CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, "offset", keyMap["offset"]);
+											CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, "vertices", keyMap["vertices"]);
+
 											deform = new float[deformLength];
 											int start = GetInt(keyMap, "offset", 0);
 											float[] verticesValue = GetFloatArray(keyMap, "vertices", 1);
