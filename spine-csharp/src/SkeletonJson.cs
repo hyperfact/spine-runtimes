@@ -1103,8 +1103,8 @@ namespace Spine {
 										if (!keyMap.ContainsKey("vertices")) {
 											deform = weighted ? new float[deformLength] : vertices;
 										} else {
-											CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, "offset", keyMap["offset"]);
-											CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, "vertices", keyMap["vertices"]);
+											CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, keyMap, "offset");
+											CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, keyMap, "vertices");
 
 											deform = new float[deformLength];
 											int start = GetInt(keyMap, "offset", 0);
@@ -1166,7 +1166,7 @@ namespace Spine {
 				foreach (Dictionary<string, Object> keyMap in values) {
 					int[] drawOrder = null;
 					if (keyMap.ContainsKey("offsets")) {
-						CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, "offsets", keyMap["offsets"]);
+						CurrentSkeletonData.RecordFrameExtraObject(timeline, frame, keyMap, "offsets");
 						drawOrder = new int[slotCount];
 						for (int i = slotCount - 1; i >= 0; i--)
 							drawOrder[i] = -1;

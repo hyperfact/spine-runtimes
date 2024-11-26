@@ -41,8 +41,9 @@ namespace Spine {
             return fd;
         }
         
-        internal void RecordFrameExtraObject(Timeline tl, int frame, string name, object value) {
-            GetCurveFrameData(tl, frame).FrameExtraObjects[name] = value;
+        internal void RecordFrameExtraObject<T>(Timeline tl, int frame, Dictionary<string, T> map, string key, T defaultValue=default(T)) {
+            if (map.TryGetValue(key, out var v) && !v.Equals(defaultValue))
+                GetCurveFrameData(tl, frame).FrameExtraObjects[key] = v;
         }
 
         internal void RecordCurveStepped(Timeline tl, int frame) {
