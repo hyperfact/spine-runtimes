@@ -5,15 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Spine {
 	public partial class SkeletonData {
-        public readonly ExposedList<Timeline> SlotTimelines = new ExposedList<Timeline>();
-        public readonly ExposedList<Timeline> BoneTimelines = new ExposedList<Timeline>();
-        public readonly ExposedList<Timeline> IKConstraintTimelines = new ExposedList<Timeline>();
-        public readonly ExposedList<Timeline> TransformConstraintTimelines = new ExposedList<Timeline>();
-        public readonly ExposedList<Timeline> PathConstraintTimelines = new ExposedList<Timeline>();
-        public readonly ExposedList<Timeline> PhysicsConstraintTimelines = new ExposedList<Timeline>();
         public readonly ExposedList<(int, Attachment, Timeline)> AttachmentTimelines = new ExposedList<(int, Attachment, Timeline)>();
-        public readonly ExposedList<Timeline> DrawOrderTimelines = new ExposedList<Timeline>();
-        public readonly ExposedList<Timeline> EventTimelines = new ExposedList<Timeline>();
    
         public class CurveFrameBezierData {
             public float cx1;
