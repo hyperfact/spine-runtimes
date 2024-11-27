@@ -853,9 +853,15 @@ namespace Spine {
 				return;
 			Object curveObject = valueMap["curve"];
 			if (curveObject is string)
+			{
 				timeline.SetStepped(frameIndex);
+				CurrentSkeletonData.RecordCurveStepped(timeline, frameIndex);
+			}
 			else
+			{
 				timeline.SetCurve(frameIndex, (float)curveObject, GetFloat(valueMap, "c2", 0), GetFloat(valueMap, "c3", 1), GetFloat(valueMap, "c4", 1));
+				CurrentSkeletonData.RecordCurveBezier(timeline, frameIndex, (float)curveObject, GetFloat(valueMap, "c2", 0), GetFloat(valueMap, "c3", 1), GetFloat(valueMap, "c4", 1));
+			}
 		}
 
 		internal class LinkedMesh {
