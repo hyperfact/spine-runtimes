@@ -89,6 +89,7 @@ namespace Spine {
 			}
 		}
 #endif
+		[ThreadStatic]
 		private static SkeletonData CurrentSkeletonData;
 		public SkeletonData ReadSkeletonData (TextReader reader) {
 			if (reader == null) throw new ArgumentNullException("reader", "reader cannot be null.");
